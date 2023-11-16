@@ -18,14 +18,24 @@ cc_library(
         #"include/aarch64-linux-gnu/opencv4/opencv2/cvconfig.h",
         #"include/arm-linux-gnueabihf/opencv4/opencv2/cvconfig.h",
         #"include/x86_64-linux-gnu/opencv4/opencv2/cvconfig.h",
-        #"include/opencv4/opencv2/**/*.h*",
+        "include/opencv4/opencv2/**/*.h*",
     ]),
+
+    srcs = glob(["lib/libopencv_core.so",
+    "lib/libopencv_calib3d.so",
+    "lib/libopencv_features2d.so",
+    "lib/libopencv_highgui.so",
+    "lib/libopencv_imgcodecs.so",
+    "lib/libopencv_imgproc.so",
+    "lib/libopencv_video.so",
+    "lib/libopencv_videoio.so"]),
+
     includes = [
         # For OpenCV 4.x
         #"include/aarch64-linux-gnu/opencv4/",
         #"include/arm-linux-gnueabihf/opencv4/",
         #"include/x86_64-linux-gnu/opencv4/",
-        #"include/opencv4/",
+        "include/opencv4/",
     ],
     linkopts = [
         "-l:libopencv_core.so",

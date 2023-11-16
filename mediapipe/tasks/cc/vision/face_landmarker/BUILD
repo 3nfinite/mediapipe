@@ -223,3 +223,78 @@ cc_library(
     name = "face_landmarks_connections",
     hdrs = ["face_landmarks_connections.h"],
 )
+
+
+BLENDSHAPE_DEPS = [
+    "//mediapipe/calculators/core:begin_loop_calculator",
+    "//mediapipe/calculators/core:clip_vector_size_calculator_cc_proto",
+    "//mediapipe/calculators/core:concatenate_vector_calculator",
+    "//mediapipe/calculators/core:end_loop_calculator",
+    "//mediapipe/calculators/core:gate_calculator",
+    "//mediapipe/calculators/core:gate_calculator_cc_proto",
+    "//mediapipe/calculators/core:get_vector_item_calculator",
+    "//mediapipe/calculators/core:get_vector_item_calculator_cc_proto",
+    "//mediapipe/calculators/core:pass_through_calculator",
+    "//mediapipe/calculators/core:previous_loopback_calculator",
+    "//mediapipe/calculators/image:image_properties_calculator",
+    "//mediapipe/calculators/util:association_calculator_cc_proto",
+    "//mediapipe/calculators/util:association_norm_rect_calculator",
+    "//mediapipe/calculators/util:collection_has_min_size_calculator",
+    "//mediapipe/calculators/util:collection_has_min_size_calculator_cc_proto",
+    "//mediapipe/calculators/util:landmarks_smoothing_calculator",
+    "//mediapipe/calculators/util:landmarks_smoothing_calculator_cc_proto",
+    "//mediapipe/framework/api2:builder",
+    "//mediapipe/framework/api2:port",
+    "//mediapipe/framework/formats:classification_cc_proto",
+    "//mediapipe/framework/formats:detection_cc_proto",
+    "//mediapipe/framework/formats:image",
+    "//mediapipe/framework/formats:landmark_cc_proto",
+    "//mediapipe/framework/formats:rect_cc_proto",
+    "//mediapipe/framework/formats:tensor",
+    "//mediapipe/framework/port:status",
+    "//mediapipe/tasks/cc:common",
+    "//mediapipe/tasks/cc/components/utils:gate",
+    "//mediapipe/tasks/cc/core:model_asset_bundle_resources",
+    "//mediapipe/tasks/cc/core:model_resources_cache",
+    "//mediapipe/tasks/cc/core:model_task_graph",
+    "//mediapipe/tasks/cc/core:utils",
+    "//mediapipe/tasks/cc/core:mediapipe_builtin_op_resolver",
+    "//mediapipe/tasks/cc/core:task_runner",
+    "//mediapipe/tasks/cc/metadata/utils:zip_utils",
+    "//mediapipe/tasks/cc/vision/utils:image_utils",
+    "//mediapipe/tasks/cc/vision/face_detector:face_detector_graph",
+    "//mediapipe/tasks/cc/vision/face_detector/proto:face_detector_graph_options_cc_proto",
+    "//mediapipe/tasks/cc/vision/face_geometry:face_geometry_from_landmarks_graph",
+    "//mediapipe/tasks/cc/vision/face_geometry/calculators:geometry_pipeline_calculator_cc_proto",
+    "//mediapipe/tasks/cc/vision/face_geometry/proto:environment_cc_proto",
+    "//mediapipe/tasks/cc/vision/face_geometry/proto:face_geometry_cc_proto",
+    "//mediapipe/tasks/cc/vision/face_geometry/proto:face_geometry_graph_options_cc_proto",
+    "//mediapipe/tasks/cc/vision/face_landmarker/proto:face_blendshapes_graph_options_cc_proto",
+    "//mediapipe/tasks/cc/vision/face_landmarker/proto:face_landmarker_graph_options_cc_proto",
+    "//mediapipe/tasks/cc/vision/face_landmarker/proto:face_landmarks_detector_graph_options_cc_proto",
+    "//mediapipe/tasks/cc/vision/face_landmarker:face_landmarker_graph",
+    "//mediapipe/util:graph_builder_utils",
+    "@stblib//:stb_image",
+]
+
+cc_binary(
+    target_compatible_with = [
+        "@platforms//os:linux",
+    ],
+    name = "blendshape",
+    deps = [":blendshape_base"],
+    linkopts = ["-Wl,-soname,libblendshape.so"],
+    linkshared = 1, ## Very important
+)
+
+cc_library(
+    target_compatible_with = [
+        "@platforms//os:linux",
+    ],
+    name = "blendshape_base",
+    srcs = ["volygon_blendshape.cpp"],
+    hdrs = ["volygon_blendshape.h"],
+    visibility = ["//visibility:public"],
+    deps = BLENDSHAPE_DEPS,
+    alwayslink = 1,
+)

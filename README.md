@@ -1,6 +1,14 @@
+<span style="color:red"> 
+**How to build libblendshape.so:**
+To build libblendshape.so, run:
+bazel build -c opt --define MEDIAPIPE_DISABLE_GPU=1 mediapipe/tasks/cc/vision/face_landmarker:blendshape
+
+You can find libblendshape.so in bazel-bin/mediapipe/tasks/cc/vision/face_landmarker
+</span>
+
 ---
 layout: forward
-target: https://developers.google.com/mediapipe
+target: https://developers.google.com/
 title: Home
 nav_order: 1
 ---

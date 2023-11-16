@@ -340,7 +340,7 @@ http_archive(
 new_local_repository(
     name = "linux_opencv",
     build_file = "@//third_party:opencv_linux.BUILD",
-    path = "/usr",
+    path = "/home/hypevr/.conan2/p/openc2047e5136a6ea/p/",
 )
 
 new_local_repository(
